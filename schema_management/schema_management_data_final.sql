@@ -7,7 +7,7 @@ core_tables.customer(
   customer_id INT NOT NULL,
   first_name char(25) NOT NULL,
   last_name char(25) NOT NULL,
-  customer_as_of TIMESTAMP,
+  customer_as_of TIMESTAMPTZ,
   customer_status char(25),
   contract_id INT[],
   PRIMARY KEY (customer_id)
@@ -15,14 +15,15 @@ core_tables.customer(
 
 -- core contract
 CREATE TABLE IF NOT EXISTS
-data_staging.contract(
+core_tables.contract_status(
   contract_id INT NOT NULL,
   customer_id INT NOT NULL,
   product_id INT NOT NULL,
-  created_at TIMESTAMP NOT NULL,
-  outstanding_balance decimal(10,2),
-  projected_outstanding_balance decimal(10,2),
-  projected_completion_date TIMESTAMP,
+  contract_start_date TIMESTAMPTZ NOT NULL,
+  projected_balance decimal(10,2),
+  projected_paid_amount decimal(10,2),
+  projected_completion_date TIMESTAMPTZ,
+  projection_date TIMESTAMPTZ,
   PRIMARY KEY (contract_id)
 );
 

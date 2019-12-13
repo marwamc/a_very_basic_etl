@@ -1,6 +1,6 @@
 -- load to staging_product
 INSERT INTO
-data_staging.product(product_id,product_name,deposit,total_price,payment_frequency,etl_time)
+data_staging.product
 SELECT
     product_id::INT
     , product_name
@@ -8,6 +8,6 @@ SELECT
     , total_price::decimal(10,2)
     , payment_frequency
     , payment_amount::decimal(10,2)
-    , etl_time::TIMESTAMP
+    , etl_time::TIMESTAMPTZ
 FROM data_raw.product
 WHERE etl_time > '2019-12-01';

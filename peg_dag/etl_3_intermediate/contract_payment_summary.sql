@@ -10,3 +10,4 @@ SELECT DISTINCT
 FROM data_staging.transaction_payment tx
 WHERE tx.transaction_amount IS NOT NULL
 ;
+

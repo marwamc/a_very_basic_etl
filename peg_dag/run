@@ -4,6 +4,10 @@ set +abeuvx
 
 cmd=$1
 PROJ_NAME='peg_etl'
+PROJ_NAME='peg_etl'
+DB_NAME='peg_etl'
+DB_USER='peg'
+DB_PWD='africa'
 
 display_help() {
     echo "Usage: $0 [option]" >&2
@@ -34,9 +38,11 @@ case $cmd in
         docker run -d \
         --name $PROJ_NAME \
         -p 5436:5432 \
-        -e POSTGRES_DB=peg_etl \
-        -e POSTGRES_USER=peg \
-        -e POSTGRES_PASSWORD=africa \
+        -v $(pwd):/app/peg_etl \
+        -v /Users/milton.marwa/devx/peg/code/peg_etl/peg_raw_data:/app/peg_raw_data \
+        -e POSTGRES_DB=$DB_NAME \
+        -e POSTGRES_USER=$DB_USER \
+        -e POSTGRES_PASSWORD=$DB_PWD \
         --mount source=peg_etl_db_data,destination=/var/lib/postgresql/data \
         $PROJ_NAME:latest
         ;;
@@ -52,3 +58,4 @@ case $cmd in
         ;;
 
 esac
+

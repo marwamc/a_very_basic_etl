@@ -1,8 +1,8 @@
 FROM postgres:latest
 
 
-WORKDIR /app/
+#WORKDIR /app/
 
-ADD . /app/peg_etl/
+#ADD . /app/peg_etl/
 WORKDIR /app/peg_etl/
 

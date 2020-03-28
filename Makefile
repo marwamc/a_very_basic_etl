@@ -6,13 +6,15 @@ SHELL := bash
 .DELETE_ON_ERROR:
 .SUFFIXES:
 
-# VARS
+# STATIC VARS
 PROJ_DIR := $(PWD)
 PROJ_NAME := peg_etl
 DB_NAME := peg_db
 DB_USER := peg
 DB_PWD := bubudaah
 VOLUME_NAME := peg_etl_db_data
+
+# INTERPOLATED VARS
 VOLUME_EXISTS := $(shell docker volume ls | grep peg)
 CONTAINER_IS_RUNNING := $(shell docker ps --format {{.Image}} | grep peg_etl)
 
@@ -24,16 +26,12 @@ stop:
 	-docker stop ${PROJ_NAME}
 	-docker rm ${PROJ_NAME}
 
-
 db-volume:
 ifdef VOLUME_EXISTS
 	@echo "Volume exists: ${VOLUME_NAME}"
 else
 	docker volume create ${VOLUME_NAME}
 endif
-
-db-shell: db
-	docker exec -it ${PROJ_NAME} /bin/bash
 
 db:
 ifdef CONTAINER_IS_RUNNING
@@ -48,16 +46,21 @@ else
 	-v ${PROJ_DIR}:/app/peg_etl \
 	${PROJ_NAME}:latest
 endif
-
-
 #--mount source=peg_etl_db_data,destination=/var/lib/postgresql/data \
 
 psql:
 	docker exec -it ${PROJ_NAME} psql -U postgres -d peg_db
 
+shell: db
+	docker exec -it ${PROJ_NAME} /bin/bash
+
 etl: db
 	# execute the makefile inside the dag dir
 	cd dag && $(MAKE) etl_4
 
-analysis: db etl
+analysis: db
 	cd dag && $(MAKE) analysis
+
+cleanup:
+	docker rm -vf $(docker ps -a -q)
+	docker rmi -f $(docker images -a -q)

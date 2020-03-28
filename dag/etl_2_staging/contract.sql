@@ -8,5 +8,4 @@ SELECT
     , created_at::TIMESTAMPTZ
     , etl_time::TIMESTAMPTZ
 FROM data_raw.contract
-WHERE etl_time > '2019-12-01'
 ;

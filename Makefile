@@ -57,3 +57,6 @@ psql:
 
 etl: db
 	cd dag && $(MAKE)  # execute the makefile inside the dag dir
+
+analysis: db
+	cd dag && $(MAKE) analysis # execute the makefile inside the dag dir

@@ -10,5 +10,4 @@ SELECT
     , etl_time::TIMESTAMPTZ
 FROM data_raw.transaction
 WHERE transaction_type = 'PAYMENT'
-AND etl_time > '2019-12-01'
 ;

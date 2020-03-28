@@ -12,37 +12,48 @@ PROJ_NAME := peg_etl
 DB_NAME := peg_db
 DB_USER := peg
 DB_PWD := bubudaah
+VOLUME_NAME := peg_etl_db_data
+VOLUME_EXISTS := $(shell docker volume ls | grep peg)
+CONTAINER_IS_RUNNING := $(shell docker ps --format {{.Image}} | grep peg_etl)
 
 # TARGETS
-build:
+build: db-volume
 	docker build -t ${PROJ_NAME} .
 
 stop:
 	-docker stop ${PROJ_NAME}
 	-docker rm ${PROJ_NAME}
 
-db-volume: build
-	docker volume create peg_etl_db_data
+
+db-volume:
+ifdef VOLUME_EXISTS
+	@echo "Volume exists: ${VOLUME_NAME}"
+else
+	docker volume create ${VOLUME_NAME}
+endif
 
 db-shell: db
 	docker exec -it ${PROJ_NAME} /bin/bash
 
-db: stop build
+db:
+ifdef CONTAINER_IS_RUNNING
+	@echo "Container already running"
+	@docker ps -a
+else
+	$(MAKE) stop
+	$(MAKE) build
 	docker run -d \
 	--name ${PROJ_NAME} \
-	-p 5436:5432 \
+	-p 5432:5432 \
 	-v ${PROJ_DIR}:/app/peg_etl \
-	-e POSTGRES_DB=${DB_NAME} \
-	-e POSTGRES_USER=${DB_USER} \
-	-e POSTGRES_PASSWORD=${DB_PWD} \
-	--mount source=peg_etl_db_data,destination=/var/lib/postgresql/data \
 	${PROJ_NAME}:latest
-	docker ps -a
+endif
 
-ping:
-	docker exec -it ${PROJ_NAME} psql -U ${DB_USER} -d ${DB_NAME}
 
-etl:
-	-$(MAKE) db
-	# execute the makefile inside the dag dir
-	$(MAKE) -C dag
+#--mount source=peg_etl_db_data,destination=/var/lib/postgresql/data \
+
+psql:
+	docker exec -it ${PROJ_NAME} psql -U postgres -d peg_db
+
+etl: db
+	cd dag && $(MAKE)  # execute the makefile inside the dag dir

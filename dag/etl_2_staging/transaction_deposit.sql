@@ -8,7 +8,6 @@ SELECT
     , transaction_amount::decimal(10,2)
     , transaction_date::TIMESTAMPTZ
     , etl_time::TIMESTAMPTZ
-FROM data_raw.transaction
+FROM data_raw."transaction"
 WHERE transaction_type = 'DEPOSIT'
-AND etl_time > '2019-12-01'
 ;

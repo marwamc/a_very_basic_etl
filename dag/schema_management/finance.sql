@@ -1,3 +1,5 @@
+BEGIN;
+
 -- staging data schema
 DROP schema IF EXISTS finance cascade;
 CREATE schema IF NOT EXISTS finance;
@@ -22,3 +24,4 @@ SELECT ordinal_position, column_name, data_type, table_name, table_schema FROM i
 WHERE table_schema = 'finance' AND table_name = 'contract_status' ORDER BY ordinal_position ASC
 ;
 
+COMMIT;

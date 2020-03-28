@@ -1,3 +1,4 @@
+BEGIN;
 
 -- load customers
 COPY
@@ -27,4 +28,5 @@ FROM '/app/peg_etl/raw_data/Transaction.csv'
 DELIMITER ',' CSV HEADER
 ;
 
+COMMIT;
 

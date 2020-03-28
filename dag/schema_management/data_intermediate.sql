@@ -1,3 +1,5 @@
+BEGIN;
+
 -- schema
 DROP schema IF EXISTS data_intermediate cascade;
 CREATE schema data_intermediate;
@@ -55,3 +57,4 @@ SELECT ordinal_position, column_name, data_type, table_name, table_schema FROM i
 WHERE table_schema = 'data_intermediate' AND table_name = 'contract_projection' ORDER BY ordinal_position ASC
 ;
 
+COMMIT;

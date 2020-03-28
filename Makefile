@@ -56,7 +56,8 @@ psql:
 	docker exec -it ${PROJ_NAME} psql -U postgres -d peg_db
 
 etl: db
-	cd dag && $(MAKE)  # execute the makefile inside the dag dir
+	# execute the makefile inside the dag dir
+	cd dag && $(MAKE) etl_4
 
-analysis: db
-	cd dag && $(MAKE) analysis # execute the makefile inside the dag dir
+analysis: db etl
+	cd dag && $(MAKE) analysis

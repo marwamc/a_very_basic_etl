@@ -46,3 +46,6 @@ Assume that the current date is 8th Jan 2018. MySQL is recommended,
 but not required.
 The data is contained within the directory **raw_data** in the
 form of CSV files.
+
+### Explain the solution
+See [here for a detailed explanation of the solution presented](https://github.com/marwamc/etl_by_makefile/blob/master/docs/explanation_of_approach.md#intro).

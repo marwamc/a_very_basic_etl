@@ -1,5 +1,3 @@
-BEGIN;
-
 -- schema
 DROP schema IF EXISTS data_intermediate cascade;
 CREATE schema data_intermediate;
@@ -36,6 +34,23 @@ WHERE table_schema = 'data_intermediate' AND table_name = 'contract_payment_summ
 ;
 
 
+-- customer deposit summary
+CREATE TABLE IF NOT EXISTS
+data_intermediate.contract_deposit_summary(
+  contract_id INT NOT NULL,
+  total_deposit_paid decimal(10,2) NOT NULL,
+  number_deposits_made INT,
+  earliest_deposit_date TIMESTAMPTZ,
+  latest_deposit_date TIMESTAMPTZ,
+  etl_time char(50) DEFAULT NOW(),
+  PRIMARY KEY (contract_id)
+);
+-- table info
+SELECT ordinal_position, column_name, data_type, table_name, table_schema FROM information_schema.columns
+WHERE table_schema = 'data_intermediate' AND table_name = 'contract_payment_summary' ORDER BY ordinal_position ASC
+;
+
+
 -- contract projection
 CREATE TABLE IF NOT EXISTS
 data_intermediate.contract_projection(
@@ -57,4 +72,3 @@ SELECT ordinal_position, column_name, data_type, table_name, table_schema FROM i
 WHERE table_schema = 'data_intermediate' AND table_name = 'contract_projection' ORDER BY ordinal_position ASC
 ;
 
-COMMIT;

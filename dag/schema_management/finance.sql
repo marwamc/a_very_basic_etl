@@ -1,14 +1,11 @@
-BEGIN;
-
 -- staging data schema
 DROP schema IF EXISTS finance cascade;
 CREATE schema IF NOT EXISTS finance;
 
-
 -- report contract_status
 CREATE TABLE IF NOT EXISTS
 finance.contract_status(
-  contract_status INT NOT NULL,
+  contract_status char(15) NOT NULL,
   contract_id INT NOT NULL,
   customer_name char(75) NOT NULL,
   product_type char(25) NOT NULL,
@@ -24,4 +21,3 @@ SELECT ordinal_position, column_name, data_type, table_name, table_schema FROM i
 WHERE table_schema = 'finance' AND table_name = 'contract_status' ORDER BY ordinal_position ASC
 ;
 
-COMMIT;

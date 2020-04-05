@@ -1,5 +1,3 @@
-BEGIN;
-
 -- staging data schema
 DROP schema IF EXISTS data_staging cascade;
 CREATE schema data_staging;
@@ -88,4 +86,6 @@ WHERE table_schema = 'data_staging' AND table_name = 'transaction_deposit' ORDER
 ;
 
 
-COMMIT;
+
+
+

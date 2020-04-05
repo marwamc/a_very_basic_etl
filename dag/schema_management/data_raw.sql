@@ -1,5 +1,3 @@
-BEGIN;
-
 -- raw data schema
 DROP schema IF EXISTS data_raw cascade;
 CREATE schema IF NOT EXISTS data_raw;
@@ -72,4 +70,3 @@ WHERE table_schema = 'data_raw' AND table_name = 'transaction' ORDER BY ordinal_
 ;
 
 
-COMMIT;

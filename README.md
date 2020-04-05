@@ -1,4 +1,15 @@
-### A very basic etl
+### ETL by Makefile
+In this project, a simple ETL based on make targets is demo'ed    <br/>
+
+### Dependencies
+The only requirement is to develop and run this project is [Docker](https://www.docker.com/) <br/>
+I run Ubuntu 18.04 LTS and this is [my favorite resource](https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-18-04) 
+on how to set up docker on Ubuntu.
+
+#### Project Runtime
+This ETL runs on the latest [postgres docker image](https://hub.docker.com/_/postgres) <br/>
+The setup, orchestration and running  of the DB container, is handled as a make target. <br/>
+The SQL files are executed using the bundled psql client in the psotgres docker image.
 
 
 ### How to run:

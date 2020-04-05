@@ -2,7 +2,7 @@
 MAKEFLAGS += --warn-undefined-variables
 SHELL := bash
 .SHELLFLAGS := -o errexit -o nounset -o pipefail -c
-.DEFAULT_GOAL := etl_analysis
+.DEFAULT_GOAL := default
 .DELETE_ON_ERROR:
 .SUFFIXES:
 
@@ -61,8 +61,8 @@ etl: db
 analysis: db
 	cd dag && $(MAKE) analysis
 
-etl_analysis: etl analysis
-
 cleanup:
 	docker rm -vf $(docker ps -a -q)
 	docker rmi -f $(docker images -a -q)
+
+default: etl analysis cleanup
